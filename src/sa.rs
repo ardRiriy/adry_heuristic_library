@@ -24,7 +24,7 @@ impl SaParams {
     }
 }
 
-struct SaResult {
+pub struct SaResult {
     pub iterations: u64,
     pub best_improvement: f64,
     pub accept_count: u64,
@@ -32,7 +32,7 @@ struct SaResult {
 }
 
 impl SaResult {
-    fn print_stats(&self) {
+    pub fn print_stats(&self) {
         eprintln!("SA iterations: {}", self.iterations);
         eprintln!(
             "accept rate: {:.1}%",
