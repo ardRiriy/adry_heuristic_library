@@ -35,11 +35,11 @@ impl SaResult {
     pub fn print_stats(&self) {
         eprintln!("SA iterations: {}", self.iterations);
         eprintln!(
-            "accept rate: {:.1}%",
+            "accept rate: {:.4}%",
             self.accept_count as f64 / self.iterations as f64 * 100.0
         );
         eprintln!(
-            "worse accept rate: {:.1}%",
+            "worse accept rate: {:.4}%",
             self.worse_accept_count as f64 / self.iterations as f64 * 100.0
         );
     }
@@ -93,16 +93,6 @@ pub fn sa_solve<S: SaState>(state: &mut S, params: &SaParams) -> SaResult {
             state.undo(undo_info);
         }
     }
-
-    eprintln!("SA iterations: {}", iter_count);
-    eprintln!(
-        "accept rate: {:.3}%",
-        accept_count as f64 / iter_count as f64 * 100.0
-    );
-    eprintln!(
-        "worse accept rate: {:.3}%",
-        worse_accept_count as f64 / iter_count as f64 * 100.0
-    );
 
     SaResult {
         iterations: iter_count,
