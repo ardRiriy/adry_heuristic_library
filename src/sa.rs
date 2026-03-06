@@ -32,6 +32,7 @@ pub fn sa_solve<S: SaState>(state: &mut S, params: &SaParams) -> f64 {
     let mut rng = rng();
 
     let mut current_score = 0.0_f64;
+    let mut worst_count = 0u64;
     let mut best_diff = 0.0_f64; // 初期解からの累積改善量
 
     let mut iter_count: u64 = 0;
@@ -52,6 +53,9 @@ pub fn sa_solve<S: SaState>(state: &mut S, params: &SaParams) -> f64 {
 
         if diff >= 0.0 || rng.random::<f64>() < (diff / temp).exp() {
             current_score += diff;
+            if diff < 0.0 {
+                worse_accept_count += 1;
+            }
             if current_score > best_diff {
                 best_diff = current_score;
             }
@@ -60,5 +64,13 @@ pub fn sa_solve<S: SaState>(state: &mut S, params: &SaParams) -> f64 {
         }
     }
     eprintln!("SA iterations: {}", iter_count);
+    eprintln!(
+        "accept rate: {:.1}%",
+        accept_count as f64 / total_count as f64 * 100.0
+    );
+    eprintln!(
+        "worse accept rate: {:.1}%",
+        worse_accept_count as f64 / total_count as f64 * 100.0
+    );
     best_diff
 }
