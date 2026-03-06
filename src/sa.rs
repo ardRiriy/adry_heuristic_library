@@ -1,12 +1,14 @@
+use std::time::Instant;
+
 use rand::{Rng, rng};
 
-struct SaParams {
+pub struct SaParams {
     tl: f64,
     temp_start: f64,
     temp_end: f64,
 }
 
-trait SaState {
+pub trait SaState {
     type Neighbor;
     type Undo;
 
@@ -26,13 +28,13 @@ pub fn sa_solve<S: SaState>(state: &mut S, params: &SaParams) -> f64 {
 
     loop {
         if iter_count % 256 == 0 {
-            if timer.elapsed().as_secs_f64() >= params.time_limit {
+            if timer.elapsed().as_secs_f64() >= params.tl {
                 break;
             }
         }
         iter_count += 1;
 
-        let progress = timer.elapsed().as_secs_f64() / params.time_limit;
+        let progress = timer.elapsed().as_secs_f64() / params.tl;
         let temp = params.temp_start + (params.temp_end - params.temp_start) * progress;
 
         let neighbor = state.gen_neighbor(&mut rng);
