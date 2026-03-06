@@ -8,6 +8,16 @@ pub struct SaParams {
     temp_end: f64,
 }
 
+impl SaParams {
+    pub fn new(tl: f64, temp_start: f64, temp_end: f64) -> Self {
+        Self {
+            tl,
+            temp_start,
+            temp_end,
+        }
+    }
+}
+
 pub trait SaState {
     type Neighbor;
     type Undo;
